@@ -1,5 +1,11 @@
 # Backend API Documentation
 
+## Environment Variables
+
+- **PORT**: The port on which the server will run. Default is `3000`.
+- **DB_CONNECT**: The MongoDB connection string.
+- **JWT_SECRET**: The secret key for JWT token generation.
+
 ## Endpoints
 
 ### POST /users/register
@@ -80,8 +86,68 @@ Example:
 }
 ```
 
-## Environment Variables
+### POST /users/login
 
-- **PORT**: The port on which the server will run. Default is `3000`.
-- **DB_CONNECT**: The MongoDB connection string.
-- **JWT_SECRET**: The secret key for JWT token generation.
+#### Description
+This endpoint is used to log in an existing user.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+
+- `email` (string, required): The email address of the user. Must be a valid email format.
+- `password` (string, required): The password for the user. Must be at least 6 characters long.
+
+Example:
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Response
+The response will be a JSON object containing the following fields:
+
+- `token` (string): The authentication token for the user.
+- `user` (object): An object containing the user's details:
+  - `_id` (string): The user's unique identifier.
+  - `fullName` (object): An object containing the user's full name:
+    - `firstName` (string): The first name of the user.
+    - `lastName` (string): The last name of the user.
+  - `email` (string): The email address of the user.
+
+Example:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "60d0fe4f5311236168a109ca",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### Error Response
+The error response will be a JSON object containing the following fields:
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "password must be at-least 6 chars long.",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
