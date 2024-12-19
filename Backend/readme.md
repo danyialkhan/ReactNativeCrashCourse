@@ -151,3 +151,47 @@ Example:
   ]
 }
 ```
+
+### GET /users/logout
+
+#### Description
+This endpoint is used to log out an existing user.
+
+#### Response
+The response will be a JSON object containing the following field:
+
+Example:
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### GET /users/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated user.
+
+#### Response
+The response will be a JSON object containing the following fields:
+
+- `user` (object): An object containing the user's details:
+  - `_id` (string): The user's unique identifier.
+  - `fullName` (object): An object containing the user's full name:
+    - `firstName` (string): The first name of the user.
+    - `lastName` (string): The last name of the user.
+  - `email` (string): The email address of the user.
+
+Example:
+```json
+{
+  "user": {
+    "_id": "60d0fe4f5311236168a109ca",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
