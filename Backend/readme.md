@@ -73,12 +73,12 @@ Example:
       "location": "body"
     },
     {
-      "msg": "first name must be 3 characters long.",
+      "msg": "firstName must be at least 3 characters long",
       "param": "fullName.firstName",
       "location": "body"
     },
     {
-      "msg": "password must be at-least 6 chars long.",
+      "msg": "Password must be at least 6 characters long",
       "param": "password",
       "location": "body"
     }
@@ -193,5 +193,124 @@ Example:
     },
     "email": "john.doe@example.com"
   }
+}
+```
+### POST /captains/register
+
+#### Description
+This endpoint is used to register a new captain.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+
+- `fullName`: An object containing:
+  - `firstName` (string, required): The first name of the captain. Must be at least 3 characters long.
+  - `lastName` (string, optional): The last name of the captain. Must be at least 3 characters long.
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain. Must be at least 6 characters long.
+- `vehicle`: An object containing:
+  - `color` (string, required): The color of the vehicle. Must be at least 3 characters long.
+  - `capacity` (number, required): The capacity of the vehicle. Must be at least 1.
+  - `vehicleType` (string, required): The type of the vehicle. Must be one of `car`, `motorcycle`, or `auto`.
+  - `plate` (string, required): The plate number of the vehicle. Must be at least 3 characters long.
+
+Example:
+```json
+{
+  "fullName": {
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "red",
+    "capacity": 4,
+    "vehicleType": "car",
+    "plate": "ABC123"
+  }
+}
+```
+
+#### Response
+The response will be a JSON object containing the following fields:
+
+- `token` (string): The authentication token for the captain.
+- `captain` (object): An object containing the captain's details:
+  - `_id` (string): The captain's unique identifier.
+  - `fullName` (object): An object containing the captain's full name:
+    - `firstName` (string): The first name of the captain.
+    - `lastName` (string): The last name of the captain.
+  - `email` (string): The email address of the captain.
+  - `vehicle` (object): An object containing the vehicle's details:
+    - `color` (string): The color of the vehicle.
+    - `capacity` (number): The capacity of the vehicle.
+    - `vehicleType` (string): The type of the vehicle.
+    - `plate` (string): The plate number of the vehicle.
+
+Example:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "_id": "60d0fe4f5311236168a109ca",
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Doe"
+    },
+    "email": "jane.doe@example.com",
+    "vehicle": {
+      "color": "red",
+      "capacity": 4,
+      "vehicleType": "car",
+      "plate": "ABC123"
+    }
+  }
+}
+```
+
+#### Error Response
+The error response will be a JSON object containing the following fields:
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "firstName must be at least 3 characters long",
+      "param": "fullName.firstName",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters long",
+      "param": "password",
+      "location": "body"
+    },
+    {
+      "msg": "color must be at least 3 characters long",
+      "param": "vehicle.color",
+      "location": "body"
+    },
+    {
+      "msg": "plate must be at least 3 characters long",
+      "param": "vehicle.plate",
+      "location": "body"
+    },
+    {
+      "msg": "capacity must be at least 1",
+      "param": "vehicle.capacity",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid vehicle type",
+      "param": "vehicle.vehicleType",
+      "location": "body"
+    }
+  ]
 }
 ```
